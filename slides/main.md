@@ -66,7 +66,7 @@ P[Continuous] --Simulate--> P[Discrete] --Quantize--> P[Quantized] --Compile--> 
 
 **Michail Rontionov**
 University of Southampton
-NIR2FPGA, hands-on exercises
+Tutorial Lead
 
 **Jens Egholm Pedersen**
 Technical University of Denmark
@@ -74,7 +74,7 @@ NIR, SNNs in JAX
 
 **Charlotte Frenkel**
 Delft University of Technology
-NC on FPGA & ASIC
+NC and design approaches
 
 </div>
 <div>
@@ -85,7 +85,7 @@ SpinalHDL
 
 **Nassim Beladel**
 ETH Zurich
-Hands-on tutorial support
+ASICs and tutorial support
 
 </div>
 </div>
@@ -101,8 +101,7 @@ Hands-on tutorial support
 | 08:30 | Welcome | Michail & Jens |
 | 08:40 | NC introduction and design approaches | Charlotte |
 | 09:00 | NC on FPGA & ASIC | Michail & Nassim |
-| 09:20 | NIR | Jens |
-| 09:40 | SNNs in JAX | Jens |
+| 09:20 | NIR and SNN training | Jens |
 | 09:50 | Hands-on: SNNs | Jens & Michail |
 | *10:10* | *Break* | |
 | 10:30 | NIR2FPGA | Michail |
@@ -120,6 +119,14 @@ Hands-on tutorial support
 
 *08:40 - 09:00*
 
+<!-- Covers: 
+- Neuromorphic computing: Algorithms and their advantages 
+- Neuromorphic Hardware: Design space 
+- The problem of Co-design 
+- Top-down approach 
+- Bottom-up approaches
+-->
+
 ---
 
 <!-- _class: title -->
@@ -129,6 +136,12 @@ Hands-on tutorial support
 **Michail Rontionov & Nassim Beladel**
 
 *09:00 - 09:20*
+
+<!--
+1. Design space of digital neuromorophic hardware (7min)
+2. FPGA Accelerators exhibiting various design features
+3. ASIC Accelerators exhibiting various design features
+-->
 
 ---
 
@@ -140,15 +153,24 @@ Hands-on tutorial support
 
 *09:20 - 09:40*
 
+<!-- 
+"Compsci abstraction of the co-design idea"
+-->
+
 ---
 
 <!-- _class: title -->
 
-## SNNs in JAX
+## Building and training SNNs
 
 **Jens E. Pedersen** -- Technical University of Denmark
 
 *09:40 - 09:50*
+
+<!--
+Frameworks: Norse and Jaxsnn
+Export graph and visualize with nirviz
+-->
 
 ---
 
@@ -159,6 +181,13 @@ Hands-on tutorial support
 **Jens E. Pedersen & Michail Rontionov**
 
 *09:50 - 10:10*
+
+![w:300](qr-repo.png) 
+[github.com/neuralfpga/26iscas](https://github.com/neuralfpga/26iscas)
+
+<!--
+Build and train neuron notebook.
+-->
 
 ---
 
@@ -178,6 +207,16 @@ Hands-on tutorial support
 
 *10:30 - 10:45*
 
+<!-- 
+1. Theoretical Approach (p -> p')
+2. Example Scenario: MNIST Network
+3. Generated design 
+   - NIR Graph -> Generated Accelerator Figure (for LIF not cubalif)
+   - Simulation & Quantization
+   - Hardware properties (dataflow, time-stepped, etc.)
+   - Flow (Compilation -> Vivado -> Hardware PYNQ)
+4. So how do we write the compiler?
+-->
 ---
 
 <!-- _class: title -->
@@ -186,8 +225,14 @@ Hands-on tutorial support
 
 **Francisco Ayala Le Brun**
 
+
 *10:45 - 11:00*
 
+<!-- 
+1. Why Spinal vs conventional?
+2. Some side-by-side examples
+3. How we're using it in NIR2FPGA (resolve method)
+-->
 ---
 
 <!-- _class: title -->
@@ -197,6 +242,9 @@ Hands-on tutorial support
 **Michail Rontionov, Jens E. Pedersen & Nassim Beladel**
 
 *11:00 - 11:55*
+
+![w:300](qr-repo.png)
+[github.com/neuralfpga/26iscas](https://github.com/neuralfpga/26iscas)
 
 ---
 
