@@ -7,7 +7,7 @@
 \usepackage{csquotes}
 \usepackage{datetime}
 \usepackage[british]{babel}
-\usepackage[backend=biber]{biblatex}
+\usepackage[]{biblatex}
 \addbibresource{references.bib}
 
 \usepackage{nameref}
@@ -15,9 +15,29 @@
 \newcommand*{\currentname}{\@currentlabelname}
 \makeatother
 
+% \authorcard{img}{name}{institution}{bullet1}{bullet2}{bullet3}
+\newcommand{\authorcard}[6]{%
+  \begin{center}
+    \includegraphics[width=0.75\textwidth,height=1.8cm,keepaspectratio]{#1}
+  \end{center}
+  \begin{beamercolorbox}[rounded=true,sep=3pt,center,wd=\textwidth]{palette primary}
+    \small\textbf{#2}\\
+    \tiny #3
+  \end{beamercolorbox}
+  \vspace{0.3em}
+  \begin{itemize}\scriptsize
+    \item #4
+    \item #5
+    \item #6
+  \end{itemize}
+}
+
 \usepackage{subcaption}
 \usepackage{listings}
 \usepackage{lipsum}
+\usepackage{booktabs}
+\usepackage{makecell}
+\usepackage{colortbl}
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
@@ -121,13 +141,27 @@
   \begin{columns}
     \begin{column}{.5\textwidth}
       \begin{itemize}
-      \item Neuromorphic computing addresses
+      \item \textbf{Neuromorphic computing} is a potential solution the scalability issues of neural network-based AI.
+      \item The current \emph{bottleneck} for large-scale neuromorphic computing is \textbf{co-design} \footnote{\tiny\fullcite{scale}}.
+      \item We would like to demonstrate our framework \textbf{NIR2FPGA}, an \emph{end-to-end design flow} for
+        \begin{enumerate}
+        \item Simulating,
+        \item Quantizing,
+        \item and Compiling
+        \end{enumerate}
+        RTL from neuromorphic algorithms.
+
       \end{itemize}
+      \vspace{1em}
 
     \end{column}
 
     \begin{column}{.5\textwidth}
-
+      \begin{figure}[ht]
+        \centering
+        \includegraphics[width=\textwidth]{img/epoch.png}
+        \caption*{\tiny Source: Sevilla et al., ``Compute Trends Across Three Eras of Machine Learning,'' Epoch AI, 2022. CC BY 4.0.}
+      \end{figure}
     \end{column}
   \end{columns}
 \end{frame}
@@ -158,33 +192,54 @@
 \end{columns}
 \end{frame}
 
-\begin{frame}[plain]
-  \Huge
-  \centering
-  Temporary slide
+\begin{frame}{Who are we?}
+  \begin{columns}[T]
+    \begin{column}{0.18\textwidth}
+      \authorcard{img/michail.jpg}{Michail Rontionov}{Univ.\ of Southampton}{PhD Student supervised by \textbf{David Thomas}}{FPGAs, compilers, languages.}{Tutorial Lead}
+    \end{column}
+    \hfill
+    \begin{column}{0.18\textwidth}
+      \authorcard{img/jens.jpg}{Jens E. Pedersen}{DTU}{Postdoctorate}{Author of Norse and NIR}{Head of Open Neuromorphic}
+    \end{column}
+    \hfill
+    \begin{column}{0.18\textwidth}
+      \authorcard{img/charlotte.jpg}{Charlotte Frenkel}{TU Delft}{Assistant Professor Delft}{Research Scientist @ Google}{ODIN \& ReckOn Online Learning Chips}
+    \end{column}
+    \hfill
+    \begin{column}{0.18\textwidth}
+      \authorcard{example-image-a}{Francisco Ayala Le Brun}{TU Delft}{Bullet 1}{Bullet 2}{Bullet 3}
+    \end{column}
+    \hfill
+    \begin{column}{0.18\textwidth}
+      \authorcard{img/nassim.jpg}{Nassim\\ Beladel}{ETH Zurich}{Bullet 1}{Bullet 2}{Bullet 3}
+    \end{column}
+  \end{columns}
 \end{frame}
 
-% \begin{frame}{NIR-Centric Hardware Design}
-%   \begin{columns}
-%     \begin{column}{.5\textwidth}
-%       \begin{figure}[htbp]
-%         \centering
-%         \includegraphics[width=0.8\textwidth]{img/flow2.pdf}
-%         \caption{\label{lol1} Conventional hardware design vs our proposal.}
-%       \end{figure}
-%     \end{column}
-
-%     \begin{column}{.5\textwidth}
-%       \begin{figure}[htbp]
-%         \centering
-%         \includegraphics[width=1.0\textwidth]{/home/mrontio/uni/phd/documents/publications/nir-fpga-publication/img/architecture.pdf}
-%         \label{lol2}
-%         \caption{ An example generation of our toolchain from an SNN with the CuBa-LIF neuron model.}
-
-%       \end{figure}
-%     \end{column}
-%   \end{columns}
-
+\begin{frame}{Schedule}
+  \centering
+  \small
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{>{\columncolor{uosblue}\color{white}\bfseries}l l l}
+    \toprule
+    \rowcolor{uosblue}\color{white}\textbf{Time} & \color{white}\textbf{Topic} & \color{white}\textbf{Presenters} \\
+    \midrule
+    08:30 & Welcome                                         & Michail Rontionov \\
+    \rowcolor{uosblue!15}
+    \color{black}08:40 & Neuromorphic Engineering and Design Approaches  & Charlotte Frenkel \\
+    09:00 & FPGA \& ASIC Neuromorphic Architectures         & Michail Rontionov \& Nassim Beladel \\
+    \rowcolor{uosblue!15}
+    \color{black}09:20 & Neuromorphic Intermediate Representation (NIR)  & Jens E. Pedersen \\
+    09:40 & \textbf{Hands-on}: Defining, Training \& Exporting SNNs  & Jens E. Pedersen \& Michail Rontionov \\
+    \rowcolor{uosblue!15}
+    \color{black}10:00 & \textit{Coffee Break}                           &           \\
+    10:20 & NIR2FPGA                     & Michail Rontionov \\
+    \rowcolor{uosblue!15}
+    \color{black}10:40 & SpinalHDL Introduction                     & Francisco Ayala Le Brun\\
+    11:00 & \makecell[l]{\textbf{Hands-on}:\\ \scriptsize$\bullet$ Using NIR2FPGA to develop SNN RTL.\\ \scriptsize$\bullet$ Defining a LIF neuron in SpinalHDL.\\ \scriptsize$\bullet$ Evaluating an MNIST network via RTL simulation.} & Michail Rontionov\\
+    \bottomrule
+  \end{tabular}
+\end{frame}
 
 % \end{frame}
 
