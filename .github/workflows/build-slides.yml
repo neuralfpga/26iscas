@@ -1,0 +1,26 @@
+name: Build slides
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get install -y poppler-utils
+
+      - name: Stitch PDFs
+        run: bash slides/stitch.sh
+
+      - name: Upload combined PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: combined-slides
+          path: slides/combined.pdf
