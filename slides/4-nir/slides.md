@@ -326,7 +326,7 @@ NIR closes the gap between **software simulation** and **hardware realization** 
 
 ```
 ┌─────────────┐
-│  Norse/Spyx │  Define & train SNN
+│  Norse/Jax  │  Define & train SNN
 └──────┬──────┘
        │ export
        ▼
@@ -373,6 +373,7 @@ NIR closes the gap between **software simulation** and **hardware realization** 
 - [github.com/neuromorphs/NIR](https://github.com/neuromorphs/NIR)
 - Paper: [Neuromorphic Intermediate Representation](https://www.nature.com/articles/s41467-024-52259-9), Nat. Commun, 2025
 - Paper: [Neuromorphic Programming](https://arxiv.org/html/2410.22352v1), ICONS, 2024
+- [snnbook.net](https://snnbook.net) &mdash; free SNN textbook
 
 </div>
 </div>
@@ -381,6 +382,6 @@ NIR closes the gap between **software simulation** and **hardware realization** 
 
 <div class="text-center">
 
-**Next up**: Defining, training & exporting SNNs in JAX &rarr;
+**Next up**: Defining, training & exporting SNNs &rarr;
 
 </div>
