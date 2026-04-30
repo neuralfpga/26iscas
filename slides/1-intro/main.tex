@@ -75,23 +75,17 @@
 }
 
 %% DOCUMENT INFO %%
-\title[NIR2FPGA: NIR $\to$ FPGA]
-{NIR2FPGA: Generating Dataﬂow Accelerators for
-Neuromorphic Computing on FPGA}
+\title[From SNNs to Silicon]
+{From SNNs to Silicon:\\\emph{Compiling FPGA Bitstreams from Spiking Neural Networks}}
 
 
 \author[Michail Rontionov]{
-  Michail Rontionov$^{1\dagger}$,
-  Francisco Ayala Le Brun$^{2}$,
-  Nassim Beladel$^{3}$,\\
-  David Thomas$^{1}$,
-  Charlotte Frenkel$^{2}$,
-  Jens Egholm Pedersen$^{4\ddagger}$\\
-  \vspace{0.5em}
-  $^{1}$University of Southampton, UK \quad
-  $^{2}$TU Delft, Netherlands\\
-  $^{3}$ETH Zürich, Switzerland \quad
-  $^{4}$Technical University of Denmark, Denmark\\
+  \textbf{Michail Rontionov}$^{1\dagger}$,
+  Jens E. Pedersen$^{2\ddagger}$,
+  Charlotte Frenkel$^{3}$,\\
+  Francisco Ayala Le Brun$^{3}$,
+  Nassim Beladel$^{4}$\\
+  \vspace{1em}
   Emails: $^{\dagger}$ \texttt{m.rontionov@soton.ac.uk}, $^{\ddagger}$ \texttt{jegpe@dtu.dk}
 }
 
@@ -105,16 +99,17 @@ Neuromorphic Computing on FPGA}
   \begin{columns}[c]
     \begin{column}{0.45\textwidth}
       \centering
-      \includegraphics[height=0.8cm]{img/uos.png}\hspace{0.5em}%
-      \includegraphics[height=0.8cm]{img/mindscdt.png}\hspace{0.5em}%
-      \includegraphics[height=0.8cm]{img/ukri.png}
+      $\vcenter{\hbox{\includegraphics[height=1cm]{img/uos.png}}}^{1}$\hspace{0.5em}%
+      $\vcenter{\hbox{\includegraphics[height=1cm]{img/mindscdt.png}}}^{1}$\hspace{0.5em}%
+      $\vcenter{\hbox{\includegraphics[height=1cm]{img/ukri.png}}}^{1}$
     \end{column}
     \hfill
     \begin{column}{0.45\textwidth}
       \centering
-      $\vcenter{\hbox{\includegraphics[height=0.8cm]{img/delft.png}}}$\hspace{1em}%
-      $\vcenter{\hbox{\includegraphics[height=0.4cm]{img/eth.png}}}$\hspace{1em}%
-      $\vcenter{\hbox{\includegraphics[height=1cm]{img/dtu.jpg}}}$
+      $\vcenter{\hbox{\includegraphics[height=1cm]{img/dtu.jpg}}}^{2}$
+      $\vcenter{\hbox{\includegraphics[height=0.8cm]{img/delft.png}}}^{3}$\hspace{1em}%
+      $\vcenter{\hbox{\includegraphics[height=0.4cm]{img/eth.png}}}^{4}$\hspace{1em}%
+
     \end{column}
   \end{columns}%
 }
@@ -122,15 +117,52 @@ Neuromorphic Computing on FPGA}
 \begin{document}
 \frame{\titlepage}
 
-% \begin{frame}{Co-Design and NIR}
-%   \begin{figure}
-%     \centering
-%     \includegraphics[width=0.9\textwidth]{img/slide1-10.pdf}
-%     \caption{The co-design problem of neuromorphic computing and NIR's solution.}
-%     \label{fig:e}
-%   \end{figure}
+\begin{frame}{Why this tutorial?}
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+      \begin{itemize}
+      \item Neuromorphic computing addresses
+      \end{itemize}
 
-% \end{frame}
+    \end{column}
+
+    \begin{column}{.5\textwidth}
+
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{What is Neuromorphic Computing?}
+\begin{columns}
+  \begin{column}{.6\textwidth}
+    \begin{itemize}[<+->]
+    \item \textbf{Neuromorphic Computing}: Exploring parallels between biological neurons and neural computation.
+    \item \textbf{Spiking Neural Networks} (SNNs): Neural networks with time domain and more \emph{realistic neuron models}.
+    \item \textbf{Differences} compared to Artificial NNs:
+      \begin{itemize}
+      \item \emph{Sparsity}: Typical ANNs such as AlexNet or VGG models exhibit 60-70\% activiaton sparsity. SNNs can get up to 99\%.
+      \item \emph{Localised Learning}: Time domain enables novel bio-inspired, robust learning algorithms.
+      \item \emph{Energy Efficiency}: Event-driven, sparse computation translates to orders-of-magnitude lower power on neuromorphic hardware \cite{snn}.
+      \end{itemize}
+    \end{itemize}
+  \end{column}
+
+  \begin{column}{.4\textwidth}
+    \begin{figure}[ht]
+      \centering
+      \includegraphics[width=4.5cm]{img/x7.png}
+      \caption*{\tiny Biological neuron vs Artificial Neural Network (ANN) vs Spiking Neural Network (SNN) (as in \cite{snn})}
+    \end{figure}
+
+  \end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[plain]
+  \Huge
+  \centering
+  Temporary slide
+\end{frame}
 
 % \begin{frame}{NIR-Centric Hardware Design}
 %   \begin{columns}
