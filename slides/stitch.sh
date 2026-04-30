@@ -16,5 +16,16 @@ fi
 echo "Stitching:"
 printf '  %s\n' "${PDFS[@]}"
 
-pdfunite "${PDFS[@]}" "$OUTPUT"
+TMPDIR="$(mktemp -d)"
+trap 'rm -rf "$TMPDIR"' EXIT
+
+NORMALISED=()
+for PDF in "${PDFS[@]}"; do
+  NAME="$(basename "$(dirname "$PDF")")"
+  OUT="$TMPDIR/${NAME}.pdf"
+  pdfjam --quiet --outfile "$OUT" --papersize '{160mm,90mm}' -- "$PDF"
+  NORMALISED+=("$OUT")
+done
+
+pdfunite "${NORMALISED[@]}" "$OUTPUT"
 echo "Written to $OUTPUT"
