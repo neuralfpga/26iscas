@@ -28,6 +28,8 @@ jobs:
         run: |
           mkdir -p _site
           cp slides/combined.pdf _site/combined.pdf
+          cp slides/combined-handout.pdf _site/combined-handout.pdf
+
           cat > _site/index.html <<'EOF'
           <!DOCTYPE html>
           <html>
@@ -40,7 +42,25 @@ jobs:
             </style>
           </head>
           <body>
-            <embed src="combined.pdf" type="application/pdf">
+            <embed src="combined-handout.pdf" type="application/pdf">
+          </body>
+          </html>
+          EOF
+
+          mkdir -p _site/present
+          cat > _site/present/index.html <<'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>Slides (Present)</title>
+            <style>
+              body { margin: 0; background: #333; }
+              embed { display: block; width: 100vw; height: 100vh; }
+            </style>
+          </head>
+          <body>
+            <embed src="../combined.pdf" type="application/pdf">
           </body>
           </html>
           EOF
