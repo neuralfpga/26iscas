@@ -14,6 +14,9 @@ final case class LIHW(
   config: ConfigJSON
 ) extends PrimitiveHW[LIParams] {
 
+  /* α = exp ^ (-1 / tau) */
+  /* v[t] = α · (v[t-1] + input[t]) */
+
   def makeHardware(inputAct: Activations): (Stream[Fragment[Activations]], Stream[Fragment[Activations]]) = {
     val dt           = 1.0 // Discrete timestep = 1 time unit
     val maxTimesteps = config.timesteps + 1
@@ -22,8 +25,11 @@ final case class LIHW(
     val vLeakValue = NodeHelper.extractScalar(params.v_leak)
     require(vLeakValue == 0.0, s"LIParams: v_leak must be zero for now, got ${vLeakValue}")
 
+
+
     val liconfig = Neuron.Config(
       input = inputAct.c,
+      tau =  Some(NodeHelper.extractScalar(params.tau)),
       r = NodeHelper.extractScalar(params.r),
       resetValue = 0.0,
       threshold = None,
