@@ -27,6 +27,7 @@ object PrimitiveHW {
     params match {
       case p: IParams     =>  IHW(id, p, config)
       case p: LIParams     =>  LIHW(id, p, config)
+      case p: LIFParams     =>  LIFHW(id, p, config)
       case _ => throw new Exception(f"Not yet supported: ${params.getClass()}")
     }
 }

@@ -12,7 +12,6 @@ case class Neuron(c: Neuron.Config) extends Component {
   val outputConfig = Activations.Config(c.quants("output"), c.input.shape, c.input.width)
   val output = master Stream(Fragment(Activations(outputConfig))).simPublic()
 
-  val memConfig = Activations.Config(c.quants("v_mem"), c.input.shape, c.input.width)
   val mem = Mem(Vec(AFix(c.quants("v_mem").qformat), c.input.width), c.input.linearSize)
     .initBigInt(List.fill(c.input.linearSize)(BigInt(0)))
 
@@ -22,6 +21,7 @@ case class Neuron(c: Neuron.Config) extends Component {
   )
   debug_mem_probe.simPublic()
   debug_mem_probe.setName("v_mem")
+
   for (i <- debug_mem_probe.indices)
     debug_mem_probe(i) := mem.readAsync(U(i, log2Up(c.input.linearSize) bits))
 
@@ -31,64 +31,86 @@ case class Neuron(c: Neuron.Config) extends Component {
     input.payload
   )
 
-  val rFactor = AF(c.r, c.quants("v_mem").qformat)
-
-
-  // Perform integration
-  val integrated = memReadWithPayload.map { p =>
-    val state   = p.value         // v[t - 1]
-    val input = p.linked        // input[t]
-
-    val integratedState =
-      Vec(state.zip(input.fragment.value).map { case (v, inp) =>
-        //  v[t - 1] + (r * input[t])
-        (v + (rFactor * inp)
-          // Handle Quantization
-          .fixTo(c.quants("v_mem").qformat, RoundType.FLOOR))
-          .fixTo(c.quants("v_mem").qformat, RoundType.FLOOR)
-      })
-
-    TupleBundle(integratedState, input) // v[t], input packet
-  }
+  val isLIF = c.v_threshold.isDefined && c.v_reset.isDefined
 
   val alpha = c.tau match {
-    case Some(tau) => scala.math.exp(-(1 / tau))
+    case Some(tau) => 1.0 - 1.0 / tau
     case None      => 1.0
   }
+
+  val inputScale = if (isLIF) c.r * (1.0 - alpha) else c.r
+  val rFactor    = AF(inputScale, c.quants("v_mem").qformat)
+
   val alphaFactor = Vec(AF(alpha, c.quants("v_mem").qformat), c.input.width)
 
-  val leaked = integrated.map { p =>
-    val integratedState = p._1 // v[t]
-    val input    = p._2 // input packet
+  // Leak: α * v[t-1]
+  val leaked = memReadWithPayload.map { p =>
+    val state = p.value
+    val input = p.linked
 
-    val leakedState = Vec(integratedState
+    val leakedState = Vec(state
       .zip(alphaFactor)
-      .map { case (iState, alpha) =>
-      // α * v[t]
-        (alpha * iState)
-          // Handle Quantization
-          .fixTo(c.quants("v_mem").qformat, RoundType.FLOOR)
-    })
+      .map { case (v, alpha) =>
+        (alpha * v)
+          .fixTo(c.quants("v_mem").qformat, RoundType.CEIL)
+      })
 
     TupleBundle(leakedState, input)
   }
 
+  // Integrate: leaked + (1-α)*r*input
+  val integrated = leaked.map { p =>
+    val leakedState = p._1
+    val input       = p._2
+
+    val integratedState = Vec(leakedState.zip(input.fragment.value).map { case (v, inp) =>
+      (v + (rFactor * inp)
+        .fixTo(c.quants("v_mem").qformat, RoundType.CEIL))
+        .fixTo(c.quants("v_mem").qformat, RoundType.CEIL)
+    })
+
+    TupleBundle(integratedState, input)
+  }
+
+
+  val afterFiring = (c.v_threshold, c.v_reset) match {
+    case (Some(vth), Some(vreset)) =>
+      integrated.map { p =>
+        val integratedState = p._1
+        val input           = p._2
+
+        val vthFactor = AF(vth, c.quants("v_mem").qformat)
+        val fired     = Vec(integratedState.map(_ >= vthFactor))
+
+        val nextState = Vec(integratedState.zip(fired).map { case (v, f) =>
+          Mux(f, AF(0.0, c.quants("v_mem").qformat), v)
+        })
+
+        TupleBundle(nextState, input, fired)
+      }
+    case _ =>
+      integrated.map { p => TupleBundle(p._1, p._2, Vec(Seq.fill(c.input.width)(False))) }
+  }
 
   // Write updated membrane back
   mem.write(
-    address = leaked.payload._2.fragment.flattenedAddress,
-    data    = leaked.payload._1,
-    enable  = leaked.fire
+    address = afterFiring.payload._2.fragment.flattenedAddress,
+    data    = afterFiring.payload._1,
+    enable  = afterFiring.fire
   )
 
   // --- Drive output ---
-  leaked.translateInto(output) { case (out, from) =>
-    val state   = from._1
-    val input = from._2
+  afterFiring.translateInto(output) { case (out, from) =>
+    val state  = from._1
+    val input  = from._2
+    val spikes = from._3
     out.last            := input.last
     out.fragment.coords := input.fragment.coords
     out.fragment.value  := Vec(
-      state.map(_.fixTo(c.quants("output").qformat, RoundType.FLOOR))
+      if (isLIF)
+        spikes.map(s => Mux(s, AF(1.0, c.quants("output").qformat), AF(0.0, c.quants("output").qformat)))
+      else
+        state.map(_.fixTo(c.quants("output").qformat, RoundType.FLOOR))
     )
   }
 }
@@ -99,8 +121,8 @@ object Neuron {
     input: Activations.Config,
     r: Double,
     tau: Option[Double],
-    resetValue: Double,
-    threshold: Option[Double],
+    v_reset: Option[Double],
+    v_threshold: Option[Double],
     dt: Double,
     quants: Map[String, QuantizationConfig],
     timesteps: Option[Int] = None

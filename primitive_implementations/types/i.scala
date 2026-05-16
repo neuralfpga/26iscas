@@ -22,8 +22,8 @@ final case class IHW(
       input = inputAct.c,
       tau = None,
       r = NodeHelper.extractScalar(params.r),
-      resetValue = 0.0,
-      threshold = None,
+      v_reset = None,
+      v_threshold = None,
       dt = dt,
       quants = config.quantizations(id),
       timesteps = Some(config.timesteps)
