@@ -219,7 +219,7 @@
     \end{column}
     \hfill
     \begin{column}{0.18\textwidth}
-      \authorcard{img/nassim.jpg}{Nassim\\ Beladel}{ETH Zurich}{MSc Student EEIT}{Chair of the Young Neuromorphs}
+      \authorcard{img/nassim.jpg}{Nassim Beladel}{ETH Zurich}{Msc Student EEIT}{Chair of the Young Neuromorphis}{}
     \end{column}
   \end{columns}
 \end{frame}
@@ -235,23 +235,47 @@
     08:30 & Welcome                                         & Michail Rontionov \\
     \rowcolor{uosblue!15}
     \color{black}08:40 & Neuromorphic Engineering and Design Approaches  & Charlotte Frenkel \\
-    09:00 & FPGA \& ASIC Neuromorphic Architectures         & Michail Rontionov \& Nassim Beladel \\
+    09:00 & Neuromorphic FPGA Design Paradigms         & Nassim Beladel \\
     \rowcolor{uosblue!15}
-    \color{black}09:20 & Neuromorphic Intermediate Representation (NIR)  & Jens E. Pedersen \\
-    09:40 & \textbf{Hands-on}: Defining, Training \& Exporting SNNs  & Jens E. Pedersen \& Michail Rontionov \\
+    \color{black}09:15 & Neuromorphic Intermediate Representation (NIR)  & Jens E. Pedersen \\
+    09:30 & \textbf{Hands-on}: Defining, Training \& Exporting SNNs  & Jens E. Pedersen \& Michail Rontionov \\
     \rowcolor{uosblue!15}
     \color{black}10:00 & \textit{Coffee Break}                           &           \\
-    10:20 & NIR2FPGA                     & Michail Rontionov \\
+    10:15 & NIR2FPGA                     & Michail Rontionov \\
     \rowcolor{uosblue!15}
-    \color{black}10:40 & SpinalHDL Introduction                     & Francisco Ayala Le Brun\\
-    11:00 & \makecell[l]{\textbf{Hands-on}:\\ \scriptsize$\bullet$ Using NIR2FPGA to develop SNN RTL.\\ \scriptsize$\bullet$ Defining a LIF neuron in SpinalHDL.\\ \scriptsize$\bullet$ Evaluating an MNIST network via RTL simulation.} & Michail Rontionov\\
+    \color{black}10:30 & SpinalHDL Introduction                     & Francisco Ayala Le Brun\\
+    10:45 & \makecell[l]{\textbf{Hands-on}:\\ \scriptsize$\bullet$ \emph{Livecode}: using NIR2FPGA to develop SNN RTL.\\ \scriptsize$\bullet$ \emph{Exercise}: Defining a LIF neuron in SpinalHDL.\\ \scriptsize$\bullet$ \emph{Exercise}: Evaluating an RTL MNIST SNN.} & Michail Rontionov\\
     \rowcolor{uosblue!15}
-    11:45 & Thank you, and goodbye! & All \\
+    \color{black}11:45 & Thank you, and goodbye! & All \\
     \bottomrule
   \end{tabular}
 \end{frame}
 
-% \end{frame}
+\begin{frame}{Hands-on Preparation}
+  \begin{columns}
+    \begin{column}{.5\textwidth}
+      \begin{itemize}
+      \item Our hands-on exercises assumes an \emph{account on GitHub.com}, \textbf{or} \emph{vscode} with WSL and docker.
+      \item Please go to the link
+      \end{itemize}
+      \begin{centering}
+        \qrcode[height=3cm]{https://github.com/mrontio/nir2fpga-iscas}
+
+        \vspace{1em}
+        \url{github.com/mrontio/nir2fpga-iscas}
+      \end{centering}
+
+    \end{column}
+
+    \begin{column}{.5\textwidth}
+      \centering
+      Code $\to$ Codespaces $\to$ \\Create codespace on main.
+
+      \vspace{1em}
+      \includegraphics[width=0.8\textwidth]{img/b2.png}
+    \end{column}
+  \end{columns}
+\end{frame}
 
 
 \end{document}
