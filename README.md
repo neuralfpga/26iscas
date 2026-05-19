@@ -19,7 +19,7 @@ The key idea is that by designing around NIR, we can shorten the representationa
 | **08:30 - 09:20** | **Welcome & Introduction** | |
 | 08:30 | Welcome | Michail Rontionov & Jens E. Pedersen |
 | 08:40 | NC introduction and design approaches | Charlotte Frenkel |
-| 09:00 | NC on FPGA & ASIC | Michail Rontionov & Nassim Beladel |
+| 09:00 | NC on FPGA | Nassim Beladel |
 | **09:20 - 10:10** | **NIR & SNNs** | |
 | 09:20 | NIR | Jens E. Pedersen |
 | 09:40 | SNNs in JAX | Jens E. Pedersen |
@@ -36,10 +36,9 @@ The key idea is that by designing around NIR, we can shorten the representationa
 
 - **[Michail Rontionov](https://github.com/mrontio)** (University of Southampton) -- NIR2FPGA, hands-on exercises
 - **[Jens Egholm Pedersen](https://jepedersen.dk)** (Technical University of Denmark) -- NIR, SNNs in JAX
-- **[Charlotte Frenkel](https://chfrenkel.github.io/)** (Delft University of Technology) -- NC on FPGA & ASIC
+- **[Charlotte Frenkel](https://chfrenkel.github.io/)** (Delft University of Technology) -- NC introduction and design approaches
 - **[Francisco Ayala Le Brun](https://github.com/fayalalebrun)** -- SpinalHDL
-- **[Nassim Beladel](https://github.com/nassimbd)** (ETH Zurich) -- Hands-on tutorial support
-
+- **[Nassim Beladel](https://www.linkedin.com/in/nassimbeladel/)** (ETH Zurich) -- NC on FPGA
 ## References
 
 - **NIR2FPGA paper**: Rontionov et al., *Generating Dataflow Accelerators from the Neuromorphic Intermediate Representation*
